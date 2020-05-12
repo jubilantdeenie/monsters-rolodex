@@ -6,15 +6,12 @@ import { SearchBox } from './components/search-box/search-box.component';
 import './App.css';
 
 class App extends Component {
-
   constructor() {
     super();
 
     this.state = {
       monsters: [],
-      searchField: '',
-      title: ''
-
+      searchField: ''
     };
   }
 
@@ -23,6 +20,10 @@ class App extends Component {
       .then(response => response.json())
       .then(users => this.setState({ monsters: users }));
   }
+
+  onSearchChange = event => {
+    this.setState({ searchField: event.target.value });
+  };
 
   render() {
     const { monsters, searchField } = this.state;
@@ -33,10 +34,7 @@ class App extends Component {
     return (
       <div className='App'>
         <h1>Monsters Rolodex</h1>
-        <SearchBox
-          placeholder='search monsters'
-          handleChange={e => this.setState({ searchField: e.target.value })}
-        />
+        <SearchBox onSearchChange={this.onSearchChange} />
         <CardList monsters={filteredMonsters} />
       </div>
     );
